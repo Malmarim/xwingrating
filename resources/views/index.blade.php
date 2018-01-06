@@ -68,7 +68,7 @@
         <table>
             <th><td>#</td><td>Name</td></th>
         </table>
-        <form role="form" enctype="multipart/form-data" method="post" action="{{url('save')}}">
+        <form role="form" enctype="multipart/form-data" method="post" action="{{url('upload')}}">
             {{ csrf_field() }}
             <input name="json" type="file">
             <input type="submit" value="Upload">
