@@ -148,7 +148,7 @@ class RatingController extends Controller {
                 }
             }
             $this->calculateRating($players, $games, count($event->rounds));
-            return view('upload', ['players'=>$players, $event]);
+            return view('upload', ['players'=>$players, 'event'=>$event]);
             /*$user = \Auth::user();
             $id = $user->project_id;
             $categories = \App\Category::where('project_id', '=', $id)->orderBy('name', 'ASC')->get();
