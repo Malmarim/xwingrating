@@ -150,7 +150,8 @@ class RatingController extends Controller {
             $this->calculateChange($players, $games, count($event->rounds));
             foreach($players as $player){
                 if(isset($data['custom'])){
-                    $player->rating += $player->change*(1+($player->sos*$player->mov/count($event->rounds)/100));
+                    //$player->rating += $player->change*(1+($player->sos*$player->mov/count($event->rounds)/100));
+                    $player->rating += $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos
                 }else{
                     $player->rating += $player->change; 
                 }
