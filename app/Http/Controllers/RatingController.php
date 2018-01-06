@@ -147,42 +147,33 @@ class RatingController extends Controller {
                     array_push($games, $match);
                 }
             }
-            $this->calculateRating($players, $games, count($event->rounds));
+            $this->calculateChange($players, $games, count($event->rounds));
             foreach($players as $player){
                 if(isset($data['custom'])){
                     $player->rating += $player->change*(1+($player->sos*$player->mov/count($event->rounds)/100));
                 }else{
                     $player->rating += $player->change; 
                 }
-                // SUM(pelien rating muutokset)*1+(SoS*MoV/games/100)
-                //$modifier = 1 + ($player->sos*$player->mov/$rounds/100);
-                //; 
             }
             return view('upload', ['players'=>$players]);
-            /*$user = \Auth::user();
-            $id = $user->project_id;
-            $categories = \App\Category::where('project_id', '=', $id)->orderBy('name', 'ASC')->get();
-            $project = \App\Project::find($id);
-            return view('create-state', ['project'=>$project, 'categories'=>$categories]);*/
-            //return view('upload');
         }
         
-        private function calculateRating($players, $games){
+        private function calculateChange($players, $games){
             foreach($games as $game){
-                /*
-                $p1rating = $players[$game->player1]->rating;
-                $p2rating = $players[$game->player2]->rating;
-                $higher = $p1rating > $p2rating ? $p1rating : $p2rating;
-                $lower = $p1rating < $p2rating ? $p1rating : $p2rating;
-                $vf =  ($higher-$lower)/25;
-                 */
                 $p1points = $game->player1points;
                 $p2points = $game->player2points;
                 $winner = $p1points > $p2points ? $game->player1 : $game->player2;
                 $loser = $p1points < $p2points ? $game->player1 : $game->player2;
-                $vf = abs($players[$game->player1]->rating - $players[$game->player2]->rating)/25;
+                $winnerPoints = $p1points > $p2points ? $p1points : $p2points;
+                $loserPoints = $p1points < $p2points ? $p1points : $p2points;
+                $p1rating = $players[$game->player1]->rating;
+                $p2rating = $players[$game->player2]->rating;
+                $higher = $p1rating > $p2rating ? $game->player1 : $game->player2;
+                $lower = $p1rating < $p2rating ? $game->player1 : $game->player2;
+                $vf =  ($players[$higher]->rating-$players[$lower]->rating)/25;
+                $diff = ($winnerPoints-$loserPoints)/100;
                 if($vf > 15){$vf = 15;}
-                $pts = 16+$vf;
+                $pts = $winner == $higher ? (16-$vf)*$diff : (16+$vf)*$diff;
                 $players[$winner]->change += $pts;
                 $players[$loser]->change -= $pts;
             }
