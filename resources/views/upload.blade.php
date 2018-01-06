@@ -65,11 +65,10 @@
         </style>
     </head>
     <body>
-        
         <table>
             <tr><th>Name</th><th>Rating</th></tr>
             @foreach($players as $player)
-            <tr><td>{{$player->name}}</td><td>{{$player->rating}}</td></tr>
+            <tr><td>{{$player->name}}</td><td>{{$player->rating}}</td><td>{{$player->score}}</td><td>{{$player->sos}}</td><td>{{$player->mov}}</td></tr>
             @endforeach
         </table>
     </body>
