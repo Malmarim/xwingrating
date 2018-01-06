@@ -71,6 +71,7 @@
         <form role="form" enctype="multipart/form-data" method="post" action="{{url('upload')}}">
             {{ csrf_field() }}
             <input name="json" type="file">
+            <input type="checkbox" name="custom">Include mov in calculation
             <input type="submit" value="Upload">
         </form>
     </body>

@@ -148,7 +148,17 @@ class RatingController extends Controller {
                 }
             }
             $this->calculateRating($players, $games, count($event->rounds));
-            return view('upload', ['players'=>$players, 'event'=>$event]);
+            foreach($players as $player){
+                if(isset($data['custom'])){
+                    $player->rating += $player->change*(1+($player->sos*$player->mov/$rounds/100));
+                }else{
+                    $player->rating += $player->change; 
+                }
+                // SUM(pelien rating muutokset)*1+(SoS*MoV/games/100)
+                //$modifier = 1 + ($player->sos*$player->mov/$rounds/100);
+                //; 
+            }
+            return view('upload', ['players'=>$players]);
             /*$user = \Auth::user();
             $id = $user->project_id;
             $categories = \App\Category::where('project_id', '=', $id)->orderBy('name', 'ASC')->get();
@@ -157,45 +167,24 @@ class RatingController extends Controller {
             //return view('upload');
         }
         
-        private function calculateRating($players, $games, $rounds){
+        private function calculateRating($players, $games){
             foreach($games as $game){
+                /*
+                $p1rating = $players[$game->player1]->rating;
+                $p2rating = $players[$game->player2]->rating;
+                $higher = $p1rating > $p2rating ? $p1rating : $p2rating;
+                $lower = $p1rating < $p2rating ? $p1rating : $p2rating;
+                $vf =  ($higher-$lower)/25;
+                 */
                 $p1points = $game->player1points;
                 $p2points = $game->player2points;
                 $winner = $p1points > $p2points ? $game->player1 : $game->player2;
                 $loser = $p1points < $p2points ? $game->player1 : $game->player2;
-                /*$p1rating = $players[$game->player1]->rating;
-                $p2rating = $players[$game->player2]->rating;
-                $higher = $p1rating > $p2rating ? $p1rating : $p2rating;
-                $lower = $p1rating < $p2rating ? $p1rating : $p2rating;
-                $vf =  ($higher-$lower)/25;*/
                 $vf = abs($players[$game->player1]->rating - $players[$game->player2]->rating)/25;
-                if($vf > 15){
-                    $vf = 15;
-                }
+                if($vf > 15){$vf = 15;}
                 $pts = 16+$vf;
                 $players[$winner]->change += $pts;
                 $players[$loser]->change -= $pts;
-                /*
-                    Voittaja: (16±VF)*(score dif/100)
-                    Häviäjä: (-16±VF)*(score dif/100)
-                    First off, since the players had different ratings, we must calculate a varying factor (VF). Here's that formula:
-                    VF = (Own rating - Opponent rating) / 25
-                    At the start of the tournament,
-                    Player 1 has a rating of 1700.
-                    Player 2 has a rating of 1500.
-                    8 = (1700 - 1500) / 25
-                    Now we can calculate the points (PTS) each player will have added or subtracted from their rating. Here's that formula:
-                    PTS = 16 + or - VF
-                    So Player 1's rating drops by 24 pts, and Player 2's rating goes up by 24 pts, as follows:
-                    24 = 16 + 8
-                    Huom! VF max 15.
-                */
-            }
-            foreach($players as $player){
-                // SUM(pelien rating muutokset)*1+(SoS*MoV/games/100)
-                //$modifier = 1 + ($player->sos*$player->mov/$rounds/100);
-                //$player->rating += $player->change*(1+($player->sos*$player->mov/$rounds/100));
-                $player->rating += $player->change;
             }
         }
 }
