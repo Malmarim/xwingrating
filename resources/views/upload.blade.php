@@ -66,9 +66,15 @@
     </head>
     <body>
         <table>
+            <tr><th>Name</th><th>Score</th><th>SoS</th><th>MoV</th></tr>
+            @foreach($event->players as $player)
+            <tr><td>{{$player->name}}</td><td>{{$player->score}}</td><td>{{$player->sos}}</td><td>{{$player->mov}}</td></tr>
+            @endforeach
+        </table>
+        <table>
             <tr><th>Name</th><th>Rating</th></tr>
             @foreach($players as $player)
-            <tr><td>$player->name</td><td>$player->rating</td></tr>
+            <tr><td>{{$player->name}}</td><td>{{$player->rating}}</td></tr>
             @endforeach
         </table>
     </body>
