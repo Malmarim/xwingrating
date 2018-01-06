@@ -65,9 +65,11 @@
         </style>
     </head>
     <body>
-        <form role="form" enctype="multipart/form-data" method="post" action="{{url('save')}}">
-            <input name="thefile" type="file">
-            <input type="submit" value="update">
-        </form>
+        <table>
+            <tr><th>Name</th><th>Rating</th></tr>
+            @foreach($players as $player)
+            <tr><td>$player->name</td><td>$player->rating</td></tr>
+            @endforeach
+        </table>
     </body>
 </html>

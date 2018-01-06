@@ -1,9 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\Log;
+//use Illuminate\Support\Facades\DB;
 
 class RatingController extends Controller {
     
@@ -24,119 +23,180 @@ class RatingController extends Controller {
         }
         
         public function upload(){
+            /*
+            {
+                "name": "Test",
+                "players": [
+                    {
+                        "name": "Test",
+                        "email": "",
+                        "list-id": "",
+                        "mov": 450,
+                        "score": 2,
+                        "sos": 0.22,
+                        "dropped": 4,
+                        "rank": {"swiss": 1}
+                    },
+                    {
+                        "name": "Test 4",
+                        "email": "",
+                        "list-id": "",
+                        "mov": 346,
+                        "score": 2,
+                        "sos": 0.67,
+                        "dropped": 4,
+                        "rank": {"swiss": 2}
+                    },
+                    {
+                        "name": "Test 2",
+                        "email": "",
+                        "list-id": "",
+                        "mov": 330,
+                        "score": 2,
+                        "sos": 0.44,
+                        "dropped": 4,
+                        "rank": {"swiss": 3}
+                    },
+                    {
+                        "name": "Test 3",
+                        "email": "",
+                        "list-id": "",
+                        "mov": 74,
+                        "score": 0,
+                        "sos": 0.67,
+                        "dropped": 4,
+                        "rank": {"swiss": 4}
+                    }
+                ],
+                "rounds": [
+                    {
+                        "round-type": "swiss",
+                        "round-number": 1,
+                        "matches": [
+                            {
+                                "player1": "Test 2",
+                                "player1points": 100,
+                                "player2": "Test 3",
+                                "player2points": 25,
+                                "result": "win"
+                            },
+                            {
+                                "player1": "Test",
+                                "player1points": 97,
+                                "player2": "Test 4",
+                                "player2points": 98,
+                                "result": "win"
+                            }
+                            ]
+                    },
+                    {
+                        "round-type": "swiss",
+                        "round-number": 2,
+                        "matches": [
+                            {
+                                "player1": "Test 4",
+                                "player1points": 100,
+                                "player2": "Test 2",
+                                "player2points": 0,
+                                "result": "win"
+                            },
+                            {
+                                "player1": "Test 3",
+                                "player1points": 25,
+                                "player2": "Test",
+                                "player2points": 100,
+                                "result": "win"
+                            }
+                        ]
+                    },
+                    {
+                        "round-type": "swiss",
+                        "round-number": 3,
+                        "matches": [
+                            {
+                                "player1": "Test 4",
+                                "player1points": 20,
+                                "player2": "Test 2",
+                                "player2points": 75,
+                                "result": "win"
+                            },
+                            {
+                                "player1": "Test",
+                                "player1points": 100,
+                                "player2": "Test 3",
+                                "player2points": 24,
+                                "result": "win"
+                            }
+                        ]
+                    }
+                ]
+            }
+            */
             $data = request()->all();
-            $json = json_decode(file_get_contents($data['json']));
-            return response()->json($json);            
+            $event = json_decode(file_get_contents($data['json']));
+            $players = [];
+            foreach($event->players as $player){
+                // fetch player or create new
+                $player->rating = 1500;
+                $player->change = 0;
+                $players[$player->name] = $player;
+            }
+            $games = [];
+            foreach($event->rounds as $round){
+                foreach($round->matches as $match){
+                    array_push($games, $match);
+                }
+            }
+            $this->calculateRating($players, $games, count($event->rounds));
+            
+            return view('upload', ['players'=>$players]);
             /*$user = \Auth::user();
             $id = $user->project_id;
             $categories = \App\Category::where('project_id', '=', $id)->orderBy('name', 'ASC')->get();
             $project = \App\Project::find($id);
             return view('create-state', ['project'=>$project, 'categories'=>$categories]);*/
-            return view('upload');
+            //return view('upload');
         }
         
-        public function postChat(){
-            $data = json_decode(request()->getContent());
-            ////$this->logWebhook("Chat", $data);
-            if(!isset($data->resource)){
-                //$this->log('Chat webhook error: missing parameter "resource"');
-                return response()->json(['error'=>'missing parameter "resource"']);
-            }
-            $room = $data->resource->room_id;
-            //$this->log("New chat. Room: ".$room." Channel: ".$data->channel." Id:".$data->resource_id);
-            $org = $this->findId($data->channel);
-            $bot = \App\GiosgBot::where('organization', '=', $org)->where('room_id', '=', $room)->first(); 
-            
-            if($bot == null && $org == '3e6e6580-30d0-11e3-a5d9-00163e0c01f2'){
-                //$this->log("Bot null & com chat, joining as listener");
-                $this->joinAsListener($org, $data);
-                return 'ok';
-            }else if($bot == null){
-                Log::info("Bot null and not com, ignoring");
-                return 'ok';
-            }else{
-                Log::info("Chat project: ".$bot->project_id);
-            }
-            
-            $project = \App\Project::find($bot->project_id);
-            $rand = rand(1,100);
-            if($project->name == 'mehi-poc' && $rand > 50 && $this->isTeamOnline($bot, $bot->organization)){
-                Log::info('Not joining: '.$rand);
-                return 'ok';
-            }
-            $this->validateInvite($bot, $data);
-            return 'ok';
-        }
-        
-        public function postCreateState(Request $request){
-            $this->validate($request, [
-                'name' => 'required|alpha_dash',
-                'bubble' => 'required',
-            ]);
-            
-            $data = request()->all();
-            $action_input = $this->parseActionInput($data);
-            $analyzer = $this->encodeAnalyzer($data);
-            $state = \App\StarChatState::create([
-                'name'=>$data['name'],
-                'bubble'=>$data['bubble'],
-                'success_value'=>$data['success'],
-                'failure_value'=>$data['failure'],
-                'action'=>$data['action'],
-                'action_input'=>$action_input,
-                'project_id'=>$data['project'],
-                'analyzer'=>$analyzer,
-                'validation'=>strlen($data['validation']) >0 ? $data['validation'] : null,
-                'category_id'=>$data['category']
-            ]);
-            if(isset($data['query'])){
-                foreach($data['query'] as $query){
-                    $this->createQuery($query, $state);
+        private function calculateRating($players, $games, $rounds){
+            foreach($games as $game){
+                $p1points = $game->player1points;
+                $p2points = $game->player2points;
+                $winner = $p1points > $p2points ? $game->player1 : $game->player2;
+                $loser = $p1points < $p2points ? $game->player1 : $game->player2;
+                /*$p1rating = $players[$game->player1]->rating;
+                $p2rating = $players[$game->player2]->rating;
+                $higher = $p1rating > $p2rating ? $p1rating : $p2rating;
+                $lower = $p1rating < $p2rating ? $p1rating : $p2rating;
+                $vf =  ($higher-$lower)/25;*/
+                $vf = abs($players[$game->player1]->rating - $players[$game->player2]->rating)/25;
+                if($vf > 15){
+                    $vf = 15;
                 }
+                $pts = 16+$vf;
+                $players[$winner]->change += $pts;
+                $players[$loser]->change -= $pts;
+                /*
+                    Voittaja: (16±VF)*(score dif/100)
+                    Häviäjä: (-16±VF)*(score dif/100)
+                    First off, since the players had different ratings, we must calculate a varying factor (VF). Here's that formula:
+                    VF = (Own rating - Opponent rating) / 25
+                    At the start of the tournament,
+                    Player 1 has a rating of 1700.
+                    Player 2 has a rating of 1500.
+                    8 = (1700 - 1500) / 25
+                    Now we can calculate the points (PTS) each player will have added or subtracted from their rating. Here's that formula:
+                    PTS = 16 + or - VF
+                    So Player 1's rating drops by 24 pts, and Player 2's rating goes up by 24 pts, as follows:
+                    24 = 16 + 8
+                    Huom! VF max 15.
+                */
             }
-            $this->indexState($state);
-            //$this->indexAnalyzer($state->project->starchat_url);
-            return redirect()->action('ProjectController@getIndex', ['id'=>$data['project']]);
-        }
-        
-        public function getIndexState($id){
-            $state = \App\StarChatState::with('project', 'queries')->find($id);
-            $errors = $this->indexState($state);
-            //$errors['analyzer'] = $this->indexAnalyzer($state->project->starchat_url);
-            return $this->indexState($state, $errors);
-        }
-        
-        private function indexState($state, $errors = []){
-            $query = $this->buildQuery($state);
-            $url = $state->project->starchat_url.'/decisiontable';
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
-            $result = curl_exec($ch);
-            curl_close($ch);
-            $errors[$state->name] = $result;
-            return $errors;
-        }
-        
-        public function getLoadFile($id = 1){
-            $file = fopen(base_path().'/project'.$id.'.csv', 'r');
-            $return = [];
-            while (($line = fgets($file)) !== false) {
-                $fields = explode(";", trim($line));
-                $state = \App\StarChatState::firstOrCreate([
-                    'name'=>$fields[0], 'bubble'=>$fields[4], 'action'=>$fields[5], 'action_input'=>$fields[6],
-                    'project_id'=>$id, 'success_value'=>$fields[8], 'failure_value'=>$fields[9], 'validation'=>$fields[10]
-                ]);
-                $queries = json_decode($fields[3]);
-                if($queries){
-                    foreach($queries as $query){
-                        \App\StarChatQuery::firstOrCreate(['text'=>$query, 'starchat_state_id'=>$state->id]);
-                    }
-                }
+            foreach($players as $player){
+                // SUM(pelien rating muutokset)*1+(SoS*MoV/games/100)
+                //$modifier = 1 + ($player->sos*$player->mov/$rounds/100);
+                //$player->rating += $player->change*(1+($player->sos*$player->mov/$rounds/100));
+                $player->rating += $player->change;
             }
-            fclose($file);
-            return $return;
         }
 }
