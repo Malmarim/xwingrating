@@ -67,8 +67,16 @@
     <body>
         <form role="form" enctype="multipart/form-data" method="post" action="{{url('upload')}}">
             {{ csrf_field() }}
+            @if(isset($error))
+            <p class="error">{{$error}}</p>
+            @endif
             <input name="json" type="file">
             <input type="checkbox" name="custom">Include mov in calculation
+            <select id="weight" name="weight">
+                <option value="1">Store</option>
+                <option value="1.1">Regional</option>
+                <option value="1.2">National</option>
+            </select>
             <input type="submit" value="Upload">
         </form>
     </body>

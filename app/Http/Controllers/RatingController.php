@@ -138,8 +138,11 @@ class RatingController extends Controller {
             }
             */
             $data = request()->all();
+            if(!isset($data['json'])){
+                view('upload', ['error'=>'File missing!']);
+            }
             $event = json_decode(file_get_contents($data['json']));
-            $eModel = \App\Event::create(['name'=>$event->name]);
+            $eModel = \App\Event::create(['name'=>$event->name, 'weight'=>$data['weight']]);
             $players = [];
             $pModels = [];
             foreach($event->players as $player){
