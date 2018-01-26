@@ -183,7 +183,7 @@ class RatingController extends Controller {
             foreach($players as $player){
                 $p = $pModels[$player->name];
                 if(isset($data['custom'])){
-                    $change = $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos;
+                    $change = $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos*$eModel->weight;
                     $player->rating += $change;
                 }else{
                     $change = $player->change; 
