@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-//use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
 //use Illuminate\Support\Facades\DB;
 
 class RatingController extends Controller {
@@ -147,6 +147,7 @@ class RatingController extends Controller {
                 $p = \App\Player::firstOrCreate(['name'=>$player->name]);
                 $player->rating = $p->rating;
                 $player->change = 0;
+                Log::info($player->name." rating: ".$player->rating);
                 $players[$player->name] = $player;
                 \App\Result::create([
                     'player_id'=>$p->id,
@@ -180,6 +181,7 @@ class RatingController extends Controller {
                 if(isset($data['custom'])){
                     $change = $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos;
                     $player->rating += $change;
+                    Log::info($player->name." rating changed by ".$change." to ".$player->rating);
                 }else{
                     $change = $player->change; 
                     $player->rating += $change;
@@ -189,7 +191,7 @@ class RatingController extends Controller {
                 ]);
                 $p->update([
                     'rating'=>$player->rating
-                ]);                
+                ]);
             }
             return view('upload', ['players'=>$players]);
         }
@@ -212,6 +214,8 @@ class RatingController extends Controller {
                 $pts = $winner == $higher ? (16-$vf)*$diff : (16+$vf)*$diff;
                 $players[$winner]->change += $pts;
                 $players[$loser]->change -= $pts;
+                Log::info($winner." won, change: ".$pts);
+                Log::info($loser." lost, change: -".$pts);
             }
         }
 }
