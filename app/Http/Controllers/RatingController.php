@@ -20,6 +20,13 @@ class RatingController extends Controller {
             return view('upload');
         }
         
+        public function reset(){
+            \DB::table('events')->delete();
+            \DB::table('players')->delete();
+            return 'ok';
+        }
+        
+        
         public function upload(){
             /*
             {

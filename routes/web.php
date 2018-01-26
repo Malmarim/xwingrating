@@ -13,3 +13,4 @@
 Route::get('/', 'RatingController@index');
 Route::get('/upload', 'RatingController@uploadPage');
 Route::post('/upload', 'RatingController@upload');
+Route::get('/reset', 'RatingController@reset');
