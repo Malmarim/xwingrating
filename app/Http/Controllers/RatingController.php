@@ -147,10 +147,8 @@ class RatingController extends Controller {
                 $c = \App\Player::firstOrCreate(['name'=>$player->name]);
                 // Fetch model to get rating
                 $p = \App\Player::find($c->id);
-                Log::info($p->rating);
                 $player->rating = $p->rating;
                 $player->change = 0;
-                Log::info($player->name." rating: ".$player->rating);
                 $players[$player->name] = $player;
                 \App\Result::create([
                     'player_id'=>$p->id,
@@ -184,7 +182,6 @@ class RatingController extends Controller {
                 if(isset($data['custom'])){
                     $change = $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos;
                     $player->rating += $change;
-                    Log::info($player->name." rating changed by ".$change." to ".$player->rating);
                 }else{
                     $change = $player->change; 
                     $player->rating += $change;
@@ -196,7 +193,7 @@ class RatingController extends Controller {
                     'rating'=>$player->rating
                 ]);
             }
-            return view('upload', ['players'=>$players]);
+            return redirect('/');
         }
         
         private function calculateChange($players, $games){
@@ -217,8 +214,6 @@ class RatingController extends Controller {
                 $pts = $winner == $higher ? (16-$vf)*$diff : (16+$vf)*$diff;
                 $players[$winner]->change += $pts;
                 $players[$loser]->change -= $pts;
-                Log::info($winner." won, change: ".$pts);
-                Log::info($loser." lost, change: -".$pts);
             }
         }
 }
