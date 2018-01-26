@@ -12,14 +12,8 @@ class RatingController extends Controller {
 	}
         
         public function index(){
-            //$user = \Auth::user();
-            /*$project = \App\Project::with('states', 'states.queries')->find($id);
-            $categories = \App\Category::where('project_id', '=', $id)->with('states')->orderBy('name', 'ASC')->get();
-            $uncat = \App\StarChatState::where('project_id', '=', $id)->whereNull('category_id')->select('id', 'name', 'bubble', 'category_id')->orderBy('name','ASC')->get();
-            $states = \App\StarChatState::where('project_id', '=', $id)->select('id', 'name', 'bubble', 'category_id')->orderBy('name','ASC')->get();
-            $bot = \App\GiosgBot::where('project_id', '=', $id)->first();
-            return view('index', ['project'=>$project, 'states'=>$states, 'categories'=>$categories, 'uncat'=>$uncat, 'bot'=>$bot]);*/
-            return view('index');
+            $players = \App\Player::orderBy('rating', 'DESC')->get();
+            return view('index', ['playes'=>$players]);
         }
         
         public function upload(){
@@ -134,27 +128,57 @@ class RatingController extends Controller {
             */
             $data = request()->all();
             $event = json_decode(file_get_contents($data['json']));
+            $eModel = \App\Event::create(['name'=>$event->name]);
             $players = [];
+            $pModels = [];
             foreach($event->players as $player){
                 // fetch player or create new
-                $player->rating = 1500;
+                $p = \App\Player::where('name', $player->name)->firstOrCreate();
+                $player->rating = $p->rating;
                 $player->change = 0;
                 $players[$player->name] = $player;
+                \App\Result::create([
+                    'player_id'=>$p->id,
+                    'event_id'=>$eModel->id,
+                    'sos'=>$player->sos,
+                    'mov'=>$player->mov,
+                    'score'=>$player->score,
+                    'rank'=>$player->rank
+                ]);
+                $pModels[$player->name] = $p;
             }
             $games = [];
             foreach($event->rounds as $round){
                 foreach($round->matches as $match){
+                    \App\Game::create([
+                        'round'=>$round->round-number,
+                        'type'=>$round->round-type,
+                        'player_1_id'=>$pModels[$match->player1]->id,
+                        'player_2_id'=>$pModels[$match->player2]->id,
+                        'event_id'=>$eModel->id,
+                        'player_1_score'=>$match->player1points,
+                        'player_2_score'=>$match->player2points,
+                        'result'=>$match->result
+                    ]);
                     array_push($games, $match);
                 }
             }
-            $this->calculateChange($players, $games, count($event->rounds));
+            $this->calculateChange($players, $games);
             foreach($players as $player){
+                $p = $pModels[$player->name];
                 if(isset($data['custom'])){
-                    //$player->rating += $player->change*(1+($player->sos*$player->mov/count($event->rounds)/100));
-                    $player->rating += $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos;
+                    $change = $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos;
+                    $player->rating += $change;
                 }else{
-                    $player->rating += $player->change; 
+                    $change = $player->change; 
+                    $player->rating += $change;
                 }
+                \App\Result::where('player_id', $p->id)->where('event_id', $eModel->id)->update([
+                   'change'=>$change 
+                ]);
+                $p->update([
+                    'rating'=>$player->rating
+                ]);                
             }
             return view('upload', ['players'=>$players]);
         }

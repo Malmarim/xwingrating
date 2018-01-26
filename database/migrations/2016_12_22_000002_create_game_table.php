@@ -18,11 +18,14 @@ class CreateGameTable extends Migration
     {
         Schema::create('game', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('round');
+            $table->string('type');
             $table->bigInteger('player_1_id')->unsigned()->index('game_player_1_id_foreign');
             $table->bigInteger('player_2_id')->unsigned()->index('game_player_2_id_foreign');
             $table->bigInteger('event_id')->unsigned()->index('game_event_id_foreign');
             $table->tinyInteger('player_1_score');
             $table->tinyInteger('player_2_score');
+            $table->string('result');
             $table->timestamps();
         });
     }
