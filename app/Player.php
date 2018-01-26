@@ -11,5 +11,5 @@ class Player extends Model
      *
      * @var array
      */
-    protected $protected = [];
+    protected $guarded = [];
 }

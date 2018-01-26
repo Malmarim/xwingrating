@@ -65,9 +65,6 @@
         </style>
     </head>
     <body>
-        <table>
-            <th><td>#</td><td>Name</td></th>
-        </table>
         <form role="form" enctype="multipart/form-data" method="post" action="{{url('upload')}}">
             {{ csrf_field() }}
             <input name="json" type="file">

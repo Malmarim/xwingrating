@@ -12,7 +12,7 @@ class Game extends Model
      *
      * @var array
      */
-    protected $protected = [];
+    protected $guarded = [];
 
     public function venue(){
         return $this->belongsTo('App\Venue', 'venue_id', 'venue_id');
