@@ -155,8 +155,8 @@ class RatingController extends Controller {
             foreach($event->rounds as $round){
                 foreach($round->matches as $match){
                     \App\Game::create([
-                        'round'=>$round->{'round_number'},
-                        'type'=>$round->{'round_type'},
+                        'round'=>$round->{'round-number'},
+                        'type'=>$round->{'round-type'},
                         'player_1_id'=>$pModels[$match->player1]->id,
                         'player_2_id'=>$pModels[$match->player2]->id,
                         'event_id'=>$eModel->id,
