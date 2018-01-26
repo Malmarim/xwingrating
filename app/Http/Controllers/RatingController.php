@@ -147,7 +147,7 @@ class RatingController extends Controller {
                     'sos'=>$player->sos,
                     'mov'=>$player->mov,
                     'score'=>$player->score,
-                    'rank'=>$player->rank
+                    'rank'=>json_encode($player->rank)
                 ]);
                 $pModels[$player->name] = $p;
             }
