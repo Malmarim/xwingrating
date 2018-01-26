@@ -66,10 +66,13 @@
     </head>
     <body>
         <table>
-            <tr><th>Name</th><th>Rating</th><th>Score</th><th>SoS</th><th>MoV</th></tr>
-            @foreach($players as $player)
-            <tr><td>{{$player->name}}</td><td>{{$player->rating}}</td><td>{{$player->score}}</td><td>{{$player->sos}}</td><td>{{$player->mov}}</td></tr>
-            @endforeach
+            <th><td>#</td><td>Name</td></th>
         </table>
+        <form role="form" enctype="multipart/form-data" method="post" action="{{url('upload')}}">
+            {{ csrf_field() }}
+            <input name="json" type="file">
+            <input type="checkbox" name="custom">Include mov in calculation
+            <input type="submit" value="Upload">
+        </form>
     </body>
 </html>

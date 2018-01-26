@@ -11,4 +11,5 @@
 |
 */
 Route::get('/', 'RatingController@index');
+Route::get('/upload', 'RatingController@uploadPage');
 Route::post('/upload', 'RatingController@upload');

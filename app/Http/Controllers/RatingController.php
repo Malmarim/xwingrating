@@ -16,6 +16,10 @@ class RatingController extends Controller {
             return view('index', ['playes'=>$players]);
         }
         
+        public function uploadPage(){
+            return view('upload');
+        }
+        
         public function upload(){
             /*
             {
