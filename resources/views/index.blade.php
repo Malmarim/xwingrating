@@ -76,7 +76,7 @@
             <th><td>Name</td><td>Rating</td></th>
             @foreach($players as $player)
             <tr>
-                <td>$player->name</td><td>$player->rating</td>
+                <td>{{$player->name}}</td><td>{{$player->rating}}</td>
             </tr>
             @endforeach
         </table>
