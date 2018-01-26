@@ -14,17 +14,16 @@ class Game extends Model
      */
     protected $guarded = [];
 
-    public function venue(){
-        return $this->belongsTo('App\Venue', 'venue_id', 'venue_id');
+    public function event(){
+        return $this->belongsTo('App\Event');
     }
     
-    public function speakers(){
-        return $this->belongsToMany('App\Speaker');
+    public function player1(){
+        return $this->belongsTo('App\Player', 'player_1_id');
     }
     
-    public function themes(){
-        return $this->belongsToMany('App\Theme');
+    public function player2(){
+        return $this->belongsTo('App\Player', 'player_2_id');
     }
-    
     
 }

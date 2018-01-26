@@ -12,4 +12,9 @@ class Player extends Model
      * @var array
      */
     protected $guarded = [];
+    
+    public function games(){
+        return $this->hasMany('App\Game');
+    }
+    
 }

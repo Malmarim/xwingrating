@@ -14,6 +14,7 @@ class Event extends Model
      */
     protected $guarded = [];
 
+    /*
     public function venue(){
         return $this->belongsTo('App\Venue', 'venue_id', 'venue_id');
     }
@@ -25,6 +26,6 @@ class Event extends Model
     public function themes(){
         return $this->belongsToMany('App\Theme');
     }
-    
+    */
     
 }
