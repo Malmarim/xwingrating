@@ -22,9 +22,6 @@ class CreatePlayerTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('rating')->default(1500);
-            $table->integer('tournaments')->default(0);
-            $table->integer('games')->default(0);
-            $table->integer('tournaments')->default(0);
             $table->timestamps();
         });
     }
