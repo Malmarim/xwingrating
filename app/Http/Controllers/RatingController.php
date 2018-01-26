@@ -13,7 +13,7 @@ class RatingController extends Controller {
         
         public function index(){
             $players = \App\Player::orderBy('rating', 'DESC')->get();
-            return view('index', ['playes'=>$players]);
+            return view('index', ['players'=>$players]);
         }
         
         public function uploadPage(){
