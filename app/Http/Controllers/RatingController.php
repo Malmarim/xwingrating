@@ -145,6 +145,7 @@ class RatingController extends Controller {
             foreach($event->players as $player){
                 // fetch player or create new
                 $p = \App\Player::firstOrCreate(['name'=>$player->name]);
+                Log::info($p->rating);
                 $player->rating = $p->rating;
                 $player->change = 0;
                 Log::info($player->name." rating: ".$player->rating);
