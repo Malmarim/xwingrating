@@ -137,7 +137,7 @@ class RatingController extends Controller {
             $pModels = [];
             foreach($event->players as $player){
                 // fetch player or create new
-                $p = \App\Player::where('name', $player->name)->firstOrCreate();
+                $p = \App\Player::firstOrCreate(['name'=>$player->name]);
                 $player->rating = $p->rating;
                 $player->change = 0;
                 $players[$player->name] = $player;
