@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventTable extends Migration
+class CreateEventsTable extends Migration
 {
     /*
      * Turnaus: Nimi (esim Ropecon 2017 tai Poro Store champ syksy 2017), pelit
@@ -15,7 +15,7 @@ class CreateEventTable extends Migration
      */
     public function up()
     {
-        Schema::create('event', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->decimal('weight')->default(1);
@@ -30,6 +30,6 @@ class CreateEventTable extends Migration
      */
     public function down()
     {
-        Schema::drop('event');
+        Schema::drop('events');
     }
 }

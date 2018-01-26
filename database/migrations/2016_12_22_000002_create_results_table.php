@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResultTable extends Migration
+class CreateResultsTable extends Migration
 {
     /*
      * Turnaus: Nimi (esim Ropecon 2017 tai Poro Store champ syksy 2017), pelit
@@ -15,10 +15,10 @@ class CreateResultTable extends Migration
      */
     public function up()
     {
-        Schema::create('result', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('player_id')->unsigned()->index('result_player_id_foreign');
-            $table->bigInteger('event_id')->unsigned()->index('result_event_id_foreign');
+            $table->bigInteger('player_id')->unsigned()->index('results_player_id_foreign');
+            $table->bigInteger('event_id')->unsigned()->index('results_event_id_foreign');
             $table->integer('mov');
             $table->integer('score');
             $table->decimal('sos');
@@ -35,6 +35,6 @@ class CreateResultTable extends Migration
      */
     public function down()
     {
-        Schema::drop('result');
+        Schema::drop('results');
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlayerTable extends Migration
+class CreatePlayersTable extends Migration
 {
     /*
     Pelaaja: Nimi, rating, turnausten määrä, pelatut pelit, win%, lifetime mov, average sos
@@ -18,7 +18,7 @@ class CreatePlayerTable extends Migration
      */
     public function up()
     {
-        Schema::create('player', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('rating')->default(1500);
@@ -33,6 +33,6 @@ class CreatePlayerTable extends Migration
      */
     public function down()
     {
-        Schema::drop('player');
+        Schema::drop('players');
     }
 }
