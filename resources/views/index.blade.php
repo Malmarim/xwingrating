@@ -62,9 +62,16 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            
+            .foo{
+                padding: 1em;
+            }
+            
+            
         </style>
     </head>
     <body>
+        <div class="foo">
         <table>
             <th><td>Name</td><td>Rating</td></th>
             @foreach($players as $player)
@@ -74,5 +81,6 @@
             @endforeach
         </table>
         <a href="{{url('upload')}}">Upload a result</a>
+        </div>
     </body>
 </html>
