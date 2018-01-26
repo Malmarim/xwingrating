@@ -73,7 +73,7 @@
     <body>
         <div class="foo">
         <table>
-            <th><td>Name</td><td>Rating</td></th>
+            <td><th>Name</th><th>Rating</th><td>
             @foreach($players as $player)
             <tr>
                 <td>{{$player->name}}</td><td>{{$player->rating}}</td>
