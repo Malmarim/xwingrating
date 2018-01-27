@@ -55,15 +55,16 @@
                                                 <header class="major">
                                                         <h1>Ranking<br />
                                                         sivusto</h1>
-                                                        <table class="results">
-                                                            <tr><th>Name</th><th>Rating</th></tr>
-                                                            @foreach($players as $player)
-                                                            <tr>
-                                                                <td>{{$player->name}}</td><td>{{$player->rating}}</td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </table>
+                                                        
                                                 </header>
+                                                <table class="results">
+                                                    <tr><th>Name</th><th>Rating</th></tr>
+                                                    @foreach($players as $player)
+                                                    <tr>
+                                                        <td>{{$player->name}}</td><td>{{$player->rating}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </table>
                                                 <div class="image main"><img src="images/xwing.png" alt="" /></div>
                                                 <p>Kuvitus kuva</p>
                                         </section>
