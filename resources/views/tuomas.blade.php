@@ -63,8 +63,6 @@
                                                     </tr>
                                                     @endforeach
                                                 </table>
-                                                <div class="image main"><img src="images/xwing.png" alt="" /></div>
-                                                <p>Kuvitus kuva</p>
                                         </section>
                                     </div>
 		<!-- Scripts -->
