@@ -219,4 +219,44 @@ class RatingController extends Controller {
                 $players[$loser]->change -= $pts;
             }
         }
+        
+        public function uploadTestPage(){
+            return view('upload-test');
+        }
+        
+        public function uploadTest(){
+            $data = request()->all();
+            if(!isset($data['json'])){
+                view('upload-test', ['error'=>'File missing!']);
+            }
+            $foo = file_get_contents($data['json']);
+            $event = json_decode($foo);
+            $error = json_last_error();
+            if($error !== JSON_ERROR_NONE){
+                view('upload-test', ['error'=>  json_last_error_msg()]);
+            }
+            $players = [];
+            foreach($event->players as $player){
+                $player->rating = 1500;
+                $player->change = 0;
+                $players[$player->name] = $player;
+            }
+            $games = [];
+            foreach($event->rounds as $round){
+                foreach($round->matches as $match){
+                    array_push($games, $match);
+                }
+            }
+            $this->calculateChange($players, $games);
+            foreach($players as $player){
+                if(isset($data['custom'])){
+                    $change = $player->change+($player->mov/200/count($event->rounds))*(count($event->players)/$player->rank->swiss)*$player->sos*$eModel->weight;
+                    $player->rating += $change;
+                }else{
+                    $change = $player->change; 
+                    $player->rating += $change;
+                }
+            }
+            return response('test', ['players'=>$players]);
+        }
 }
