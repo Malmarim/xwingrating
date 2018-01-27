@@ -62,6 +62,7 @@
                                                     </tr>
                                                     @endfor
                                                 </table>
+                                                <div class="image main"><img src="images/xwing.png" alt="pew pew"/></div>
                                         </section>
                                     </div>
 		<!-- Scripts -->
