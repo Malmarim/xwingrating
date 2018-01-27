@@ -139,7 +139,7 @@ class RatingController extends Controller {
             */
             $data = request()->all();
             if(!isset($data['json'])){
-                view('upload', ['error'=>'File missing!']);
+                return view('upload', ['error'=>'File missing!']);
             }
             $event = json_decode(file_get_contents($data['json']));
             $eModel = \App\Event::create(['name'=>$event->name, 'weight'=>$data['weight']]);
@@ -227,13 +227,13 @@ class RatingController extends Controller {
         public function uploadTest(){
             $data = request()->all();
             if(!isset($data['json'])){
-                view('upload-test', ['error'=>'File missing!']);
+                return view('upload-test', ['error'=>'File missing!']);
             }
             $foo = file_get_contents($data['json']);
             $event = json_decode($foo);
             $error = json_last_error();
             if($error !== JSON_ERROR_NONE){
-                view('upload-test', ['error'=>json_last_error_msg()]);
+                return view('upload-test', ['error'=>json_last_error_msg()]);
             }
             $players = [];
             foreach($event->players as $player){
