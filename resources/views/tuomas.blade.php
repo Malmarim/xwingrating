@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="{{asset('/css/main.css')}}"/>
 		<noscript><link rel="stylesheet" href="{{asset('/css/noscript.css')}}"/></noscript>
                 <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/bootstrap.css')}}">
-                <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/foo.css')}}">
 	</head>
         
 	<body class="is-loading">
@@ -54,8 +53,7 @@
                                         <section class="post">
                                                 <header class="major">
                                                         <h1>Ranking<br />
-                                                        sivusto</h1>
-                                                        
+                                                        sivusto</h1>   
                                                 </header>
                                                 <table class="results">
                                                     <tr><th>Name</th><th>Rating</th></tr>
