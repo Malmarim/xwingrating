@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Echo Base Finland</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+                <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/bootstrap.css')}}">  
+	</head>
+	<body class="is-loading">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="fade-in">
+
+				<!-- Intro -->
+					<div id="intro">
+						<h1>Echo Base<br />
+						Finland</h1>
+						<p>X-Wing Miniatures game by FFG</p>
+						<ul class="actions">
+							<li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
+						</ul>
+					</div>
+
+				<!-- Header -->
+					<header id="header">
+						<a href="{{url('tuomas')}}" class="logo">X-Wing Finland ranking</a>
+					</header>
+
+				<!-- Nav 
+					<nav id="nav">
+						<ul class="links">
+							<li class="active"><a href="index.html">Ranking</a></li>
+							<li><a href="events.html">Events</a></li>   
+							<li><a href="ranking.html">Ranking</a></li>                                                        
+							<li><a href="tournaments.html">Tournaments</a></li>
+							<li><a href="gallery.html">Gallery</a></li>
+						</ul> 
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						</ul>
+					</nav> -->
+
+				<!-- Main -->
+					<div id="main">
+                                            
+                                            <!-- Post -->
+							<section class="post">
+								<header class="major">
+									
+									<h1>Ranking<br />
+									sivusto</h1>
+									<p>Tähän tilalle ratingsit</p>
+								</header>
+								<div class="image main"><img src="images/xwing.png" alt="" /></div>
+                                                                <p>Kuvitus kuva</p>
+								</section>
+
+
+					</div>
+
+				
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
