@@ -7,8 +7,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{asset('/css/main.css')}}"/>
 		<noscript><link rel="stylesheet" href="{{asset('/css/noscript.css')}}"/></noscript>
-                <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/bootstrap.css')}}">  
+                <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/bootstrap.css')}}">
+                <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/foo.css')}}">
 	</head>
+        
 	<body class="is-loading">
 
 		<!-- Wrapper -->
@@ -53,7 +55,7 @@
                                                 <header class="major">
                                                         <h1>Ranking<br />
                                                         sivusto</h1>
-                                                        <table>
+                                                        <table class="results">
                                                             <tr><th>Name</th><th>Rating</th></tr>
                                                             @foreach($players as $player)
                                                             <tr>
