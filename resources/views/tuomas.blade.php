@@ -64,6 +64,7 @@
                                                 </table>
                                                 <div class="image main"><img src="images/xwing.png" alt="pew pew"/></div>
                                         </section>
+                                        <!-- -->
                                     </div>
 		<!-- Scripts -->
                 <script src="{{asset('/js/jquery.min.js')}}"></script>
