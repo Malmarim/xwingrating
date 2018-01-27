@@ -72,13 +72,14 @@
     </head>
     <body>
         <div class="foo">
-        <table>
-            <tr><th>Name</th><th>Rating</th></tr>
-            @foreach($players as $player)
-            <tr>
-                <td>{{$player->name}}</td><td>{{$player->rating}}</td>
-            </tr>
-            @endforeach
-        </table>
+            <table>
+                <tr><th>Name</th><th>Rating</th></tr>
+                @foreach($players as $player)
+                <tr>
+                    <td>{{$player->name}}</td><td>{{$player->rating}}</td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
     </body>
 </html>

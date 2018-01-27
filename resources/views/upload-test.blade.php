@@ -71,6 +71,7 @@
     </head>
     <body>
         <div class="foo">
+            <h3>TEST PAGE</h3>
             <form role="form" enctype="multipart/form-data" method="post" action="{{url('upload-test')}}">
                 {{ csrf_field() }}
                 @if(isset($error))
