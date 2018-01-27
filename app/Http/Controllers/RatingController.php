@@ -260,4 +260,9 @@ class RatingController extends Controller {
             }
             return view('test', ['players'=>$players]);
         }
+        
+        public function tuomas(){
+            $players = \App\Player::orderBy('rating', 'DESC')->get();
+            return view('tuomas', ['players'=>$players]);
+        }
 }

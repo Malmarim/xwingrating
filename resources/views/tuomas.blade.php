@@ -5,8 +5,8 @@
 		<title>Echo Base Finland</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="{{asset('/css/main.css')}}"/>
+		<noscript><link rel="stylesheet" href="{{asset('/css/noscript.css')}}"/></noscript>
                 <link rel="stylesheet" href="{{asset('dmo/css/bootstrap/css/bootstrap.css')}}">  
 	</head>
 	<body class="is-loading">
@@ -46,32 +46,31 @@
 					</nav> -->
 
 				<!-- Main -->
-					<div id="main">
-                                            
-                                            <!-- Post -->
-							<section class="post">
-								<header class="major">
-									
-									<h1>Ranking<br />
-									sivusto</h1>
-									<p>Tähän tilalle ratingsit</p>
-								</header>
-								<div class="image main"><img src="images/xwing.png" alt="" /></div>
-                                                                <p>Kuvitus kuva</p>
-								</section>
-
-
-					</div>
-
-				
-
+                                    <div id="main">
+                                        <!-- Post -->
+                                        <section class="post">
+                                                <header class="major">
+                                                        <h1>Ranking<br />
+                                                        sivusto</h1>
+                                                        <table>
+                                                            <tr><th>Name</th><th>Rating</th></tr>
+                                                            @foreach($players as $player)
+                                                            <tr>
+                                                                <td>{{$player->name}}</td><td>{{$player->rating}}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </table>
+                                                </header>
+                                                <div class="image main"><img src="images/xwing.png" alt="" /></div>
+                                                <p>Kuvitus kuva</p>
+                                        </section>
+                                    </div>
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
+                <script src="{{asset('/js/jquery.min.js')}}"></script>
+                <script src="{{asset('/js/jquery.scrollex.min.js')}}"></script>
+                <script src="{{asset('/js/jquery.scrolly.min.js')}}"></script>
+                <script src="{{asset('/js/skel.min.js')}}"></script>
+                <script src="{{asset('/js/util.js')}}"></script>
+                <script src="{{asset('/js/main.js')}}"></script>
 	</body>
 </html>
