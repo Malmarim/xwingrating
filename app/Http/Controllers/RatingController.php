@@ -258,6 +258,6 @@ class RatingController extends Controller {
                     $player->rating += $change;
                 }
             }
-            return response('test', ['players'=>$players]);
+            return view('test', ['players'=>$players]);
         }
 }
