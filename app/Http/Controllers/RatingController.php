@@ -230,7 +230,8 @@ class RatingController extends Controller {
                 return view('upload-test', ['error'=>'File missing!']);
             }
             $foo = file_get_contents($data['json']);
-            $event = json_decode($foo);
+            
+            $event = json_decode(utf8_encode($foo));
             $error = json_last_error();
             if($error !== JSON_ERROR_NONE){
                 return view('upload-test', ['error'=>json_last_error_msg()]);

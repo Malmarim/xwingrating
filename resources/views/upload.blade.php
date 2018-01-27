@@ -67,6 +67,10 @@
                 padding: 1em;
             }
             
+            .error{
+                color: red;
+            }
+            
         </style>
     </head>
     <body>
