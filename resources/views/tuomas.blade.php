@@ -14,20 +14,21 @@
 		<!-- Wrapper -->
 			<div id="wrapper" class="fade-in">
 
-				<!-- Intro -->
-					<div id="intro">
-						<h1>Echo Base<br />
-						Finland</h1>
-						<p>X-Wing Miniatures game by FFG</p>
-						<ul class="actions">
-							<li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
-
-				<!-- Header -->
-					<header id="header">
-						<a href="{{url('tuomas')}}" class="logo">X-Wing Finland ranking</a>
-					</header>
+                            
+                            <!-- Intro -->
+                            <div id="intro">
+                             <!--<h1>Echo Base<br />
+                             Finland</h1>-->
+                            <div class="image main"><img src="{{asset('images/echobaselogo.png')}}" alt="" /></div>
+                             <p>X-Wing Miniatures game by FFG</p>
+                             <ul class="actions">
+                              <li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
+                             </ul>
+                            </div>
+                            <!-- Header -->
+                                <header id="header">
+                                        <a href="{{url('tuomas')}}" class="logo">X-Wing Finland ranking</a>
+                                </header>
 
 				<!-- Nav 
 					<nav id="nav">
