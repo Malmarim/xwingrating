@@ -52,16 +52,15 @@
                                         <!-- Post -->
                                         <section class="post">
                                                 <header class="major">
-                                                        <h1>Ranking<br />
-                                                        sivusto</h1>   
+                                                        <h1>X-WING RANKINGS</h1>   
                                                 </header>
                                                 <table class="results">
-                                                    <tr><th>Name</th><th>Rating</th></tr>
-                                                    @foreach($players as $player)
+                                                    <tr><th>#</th><th>Name</th><th>Rating</th></tr>
+                                                    @for($i = 0; $i < count($players); $i++)
                                                     <tr>
-                                                        <td>{{$player->name}}</td><td>{{$player->rating}}</td>
+                                                        <td>{{$i+1}}</td><td>{{$players[$i]->name}}</td><td>{{$players[$i]->rating}}</td>
                                                     </tr>
-                                                    @endforeach
+                                                    @endfor
                                                 </table>
                                         </section>
                                     </div>
