@@ -233,7 +233,7 @@ class RatingController extends Controller {
             $event = json_decode($foo);
             $error = json_last_error();
             if($error !== JSON_ERROR_NONE){
-                view('upload-test', ['error'=>  json_last_error_msg()]);
+                view('upload-test', ['error'=>json_last_error_msg()]);
             }
             $players = [];
             foreach($event->players as $player){
